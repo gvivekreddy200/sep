@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  mongo-database:
+    image: mongo:7.0.0
+    container_name: mongo-database
+    ports:
+      - "4002:27017"
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+
+  arithmetic-service:
+    build:
+      context: ../arithmetic-service
+      dockerfile: ../arithmetic-service/Dockerfile
+    container_name: arithmetic-service
+    ports:
+      - "4000:3000"
+    environment:
+      - PORT=3000
+    restart: "no"
+
+  azure-storage:
+    build:
+      context: ../azure-storage-service
+      dockerfile: Dockerfile
+    container_name: azure-storage
+    ports:
+      - "4001:3000"
+    environment:
+      - PORT=3000
+      - STORAGE_ACCOUNT_NAME=mahimnahoneypracticums
+      - STORAGE_ACCESS_KEY=VwxR+yziffxaCk4F6e+q7Gvx1sMVV25A16tMvQcY9IxbDtuCHTTHWZEOBp7XRZQjmrk0XcYkRKhH+AStK4FEmw==
+    restart: "no"
